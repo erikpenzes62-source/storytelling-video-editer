@@ -30,8 +30,8 @@ brew install ffmpeg python git
 Dann das Repo holen und einrichten:
 
 ```bash
-git clone https://github.com/<DEIN-NAME>/storytelling-video-editor.git
-cd storytelling-video-editor
+git clone https://github.com/erikpenzes62-source/storytelling-video-editer.git
+cd storytelling-video-editer
 bash setup.sh
 ```
 
@@ -45,7 +45,7 @@ bash setup.sh
 **Vor jeder Sitzung** im Terminal:
 
 ```bash
-cd storytelling-video-editor
+cd storytelling-video-editer
 source .venv/bin/activate
 export CLIPS_DIR="$HOME/Downloads/Neuer Ordner"   # Ordner mit den eigenen Clips
 ```

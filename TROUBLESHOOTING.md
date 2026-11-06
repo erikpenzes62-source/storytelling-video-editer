@@ -5,7 +5,7 @@ Lies die **letzte Zeile mit `FEHLER`**, die das Terminal ausgibt, und such sie h
 ## Schnellcheck: Läuft alles?
 
 ```bash
-cd storytelling-video-editor
+cd storytelling-video-editer
 source .venv/bin/activate          # (.venv) muss vorne im Terminal stehen
 echo $CLIPS_DIR                    # muss den Clip-Ordner zeigen
 ffmpeg -version | head -1          # ffmpeg vorhanden?
