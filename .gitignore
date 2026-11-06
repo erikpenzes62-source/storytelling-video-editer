@@ -1,0 +1,14 @@
+.venv/
+.earshot/
+__pycache__/
+data/
+sounds/
+projects/*
+!projects/.gitkeep
+*.mp4
+*.mov
+*.MOV
+*.MP4
+*.m4a
+*.wav
+.DS_Store
