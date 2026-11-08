@@ -108,9 +108,22 @@ def build_subs(cfg, talk, T0, path):
     def o_of(ti, s_): return talk[ti]['o'] + (s_ - talk[ti]['s'])
     styles = "Style: S," + st.get('style', "Archivo Black,60,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,0,0,0,0,100,100,0,0,1,0,2,7,0,0,0,1")
     ev = []
-    slow = cfg.get('sub_speed', 'slow') == 'slow'
+    speed = cfg.get('sub_speed', 'words')
+    slow = speed in ('slow', 'words')
     subs = [list(c) for c in cfg['subs']]
-    if slow:   # ganze Phrase auf einmal; zu kurze Phrasen mit der nächsten zusammenlegen (mind. ~0,9 s, max. 5 Wörter)
+    if speed == 'words':
+        # einzelne Wörter oder Zweiergruppen nacheinander; schnelle Wortfolgen (< 0,32 s) werden zu zweit gezeigt
+        units = []
+        for ti, words, end in subs:
+            for w in words:
+                u = units[-1] if units else None
+                if (u and u[0] == ti and len(u[1]) == 1 and w[1] - u[1][0][1] < 0.32
+                        and len(u[1][0][0]) + len(w[0]) <= 14 and not u[1][0][0][-1:] in '.,!?'):
+                    u[1].append(w); u[2] = end
+                else:
+                    units.append([ti, [w], end])
+        subs = units
+    elif slow:   # ganze Phrase auf einmal; zu kurze Phrasen mit der nächsten zusammenlegen (mind. ~0,9 s, max. 5 Wörter)
         merged = []
         for c in subs:
             if merged and merged[-1][0] == c[0] and (c[1][0][1] - merged[-1][1][0][1] < 0.9) and len(merged[-1][1]) + len(c[1]) <= 5:
@@ -121,7 +134,10 @@ def build_subs(cfg, talk, T0, path):
     for k_, (ti, words, end) in enumerate(subs):
         cend = min(o_of(ti, end), talk[ti]['o'] + talk[ti]['d'] - 0.01, T0 - 0.04)
         if slow and k_ + 1 < len(subs) and subs[k_ + 1][0] == ti:
-            cend = max(cend, min(o_of(ti, subs[k_ + 1][1][0][1]), T0 - 0.04))   # stehen lassen bis zur nächsten Phrase
+            nxt = min(o_of(ti, subs[k_ + 1][1][0][1]), T0 - 0.04)
+            if subs[k_ + 1][1][0][1] - words[-1][1] < 1.2:
+                cend = max(cend, nxt)          # stehen lassen bis zum nächsten Untertitel
+            cend = min(cend, nxt)              # nie mit dem nächsten überlappen
         steps = [len(words) - 1] if slow else range(len(words))
         for j in steps:
             w, s_, key = words[j]
@@ -143,8 +159,8 @@ def build_subs(cfg, talk, T0, path):
                     parts.append(p)
                 ev.append((a, b, '{' + st['pos'] + (POP if slow else '') + '}' + ' '.join(parts)))
             elif m == 'twoline':
-                small = ' '.join(x[0] for x in words[:j])
-                big = ('{' + k + '}' if key else '') + w
+                small = '' if speed == 'words' else ' '.join(x[0] for x in words[:j])
+                big = ' '.join(('{' + k + '}' if k2 and k else '') + w2 + ('{' + WH + '}' if k2 and k else '') for w2, _, k2 in words) if speed == 'words' else (('{' + k + '}' if key else '') + w)
                 txt = '{' + st['pos'] + '}' + (r'{\fs40}' + small + r'\N' if small else '') + r'{\fs86' + POP + '}' + big
                 ev.append((a, b, txt))
             elif m == 'block':
@@ -156,9 +172,9 @@ def build_subs(cfg, talk, T0, path):
                 for ln in lines:
                     text = ' '.join(x[0] for x in ln)
                     wpx = font.getlength(text) * 0.84 - (len(text) - 1)
-                    fs = 60 * target / max(wpx, 1); fs = min(fs, 120)
-                    keyed = any(x[2] for x in ln)
-                    ev.append((a, b, rf'{{\an7\pos(46,{y:.0f})\fs{fs:.0f}\fscx84\fsp-1\fry-10\frx3{k if keyed else ""}}}{text}'))
+                    fs = 66 if speed == 'words' else min(60 * target / max(wpx, 1), 84)   # einzelne Wörter: gleichbleibende Größe
+                    colored = ' '.join(('{' + k + '}' if x[2] else '') + x[0] + ('{' + WH + '}' if x[2] else '') for x in ln)
+                    ev.append((a, b, rf'{{\an7\pos(46,{y:.0f})\fs{fs:.0f}\fscx84\fsp-1\fry-10\frx3}}{colored}'))
                     y += fs * 0.80
     head = ["[Script Info]", "ScriptType: v4.00+", "PlayResX: 1080", "PlayResY: 1920", "WrapStyle: 2", "",
             "[V4+ Styles]",

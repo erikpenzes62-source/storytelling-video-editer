@@ -83,7 +83,7 @@ python3 edit-formate/untertitel.py projects/nein/edit.json 4 nein wirklich
 ```
 
 - Whisper schreibt mit, was im Grundvideo gesagt wird (das erste Mal dauert länger), und trägt die Untertitel in die `edit.json` ein.
-- `4` steht für höchstens 4 Wörter pro Untertitel (eine Phrase). Phrasen erscheinen ganz auf einmal (`"sub_speed": "slow"`, Standard). `nein wirklich` sind die Keywords, die farbig werden. Zahlen werden automatisch farbig.
+- `4` steht für höchstens 4 Wörter pro Untertitel (eine Phrase). Angezeigt werden die Wörter einzeln oder zu zweit nacheinander (`"sub_speed": "words"`, Standard). `nein wirklich` sind die Keywords, die farbig werden. Zahlen werden automatisch farbig.
 - Falsch erkannte Wörter korrigierst du danach direkt in der `edit.json` unter `"subs"`.
 - Den Stil wählst du mit `"sub_style"`: `1A`, `1C`, `2`, `5`, `8` oder `9` (Bilder und Beschreibung in [docs/EDIT_STIL.md](docs/EDIT_STIL.md)).
 
