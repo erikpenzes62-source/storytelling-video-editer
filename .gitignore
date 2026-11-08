@@ -12,3 +12,6 @@ projects/*
 *.m4a
 *.wav
 .DS_Store
+_work_*/
+*_analyse.png
+*_check.jpg

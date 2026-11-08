@@ -1,5 +1,7 @@
 # Wenn etwas nicht funktioniert
 
+> Fehler bei den **Edit-Formaten** (`edit-formate/edit.py`)? → [edit-formate/TROUBLESHOOTING.md](edit-formate/TROUBLESHOOTING.md)
+
 Lies die **letzte Zeile mit `FEHLER`**, die das Terminal ausgibt, und such sie hier. Fast alle Schritte lassen sich gefahrlos wiederholen. Was schon fertig ist, wird übersprungen.
 
 ## Schnellcheck: Läuft alles?

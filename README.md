@@ -17,6 +17,8 @@ Clips ─► Clip-Datenbank ─► Schnittliste ┼─► Clips schneiden ─►
 
 > **Wenn etwas nicht funktioniert:** Schau zuerst in **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**, dort steht jeder bekannte Fehler mit Lösung.
 
+> **Neu: Edit-Formate.** Gespräch + Musik-Drop + Beat-Edit aus Clips (9:16). Anleitung: **[edit-formate/README.md](edit-formate/README.md)**, Fehler: **[edit-formate/TROUBLESHOOTING.md](edit-formate/TROUBLESHOOTING.md)**
+
 ---
 
 ## 1. Einrichten (einmalig)
@@ -149,6 +151,7 @@ Ungefähre Dauer auf einem MacBook für ein 100-Sekunden-Video: Schneiden 10–2
 | `tools/fonts/` | Schriften (Google Fonts, Open Font License) |
 | `examples/demo/` | Beispielprojekt zum Kopieren |
 | `docs/` | Stilregeln, Effekte, project.json-Referenz |
+| `edit-formate/` | Zweites System: Edit-Formate (Gespräch + Drop + Beat-Edit), eigene Anleitung |
 | `data/` | Clip-Datenbank (wird angelegt, nicht im Repo) |
 | `sounds/` | Soundeffekte (werden angelegt, nicht im Repo) |
 | `projects/` | Eure Videos (nicht im Repo) |
