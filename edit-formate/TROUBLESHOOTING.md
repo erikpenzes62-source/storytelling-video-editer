@@ -31,7 +31,6 @@ python3 -m json.tool projects/NAME/edit.json > /dev/null && echo "JSON ok"
 | `FEHLER: Datei nicht gefunden: …` | Pfad stimmt nicht. Pfade sind relativ zum Ordner der edit.json. Groß-/Kleinschreibung prüfen (`IMG_1.MOV` ≠ `IMG_1.mov`) |
 | `FEHLER: Clip nicht gefunden: …` | Clip liegt nicht in `clips_dir` oder heißt anders |
 | `FEHLER: Shots (…) sind länger als die Musik` | Summe der Beats bei `shots` ist größer als die Musik. Beats kürzen oder in `music` das Ende später setzen. Der letzte Shot sollte `"rest"` sein |
-| `FEHLER: Musik vor dem Drop reicht nicht` | Das Gespräch ist länger als der Song vor dem Drop. In `bed` eine feste `start`-Zahl setzen (z. B. `0`) oder einen späteren Drop nehmen |
 | `KeyError: 'X'` bei `sub_style` | Nur `1A`, `1C`, `2`, `5`, `8`, `9` gibt es |
 | `KeyError: 'subs'` | Zuerst `python3 edit-formate/untertitel.py projects/NAME/edit.json` ausführen |
 

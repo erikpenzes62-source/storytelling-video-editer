@@ -27,7 +27,7 @@ Pfade sind relativ zum Ordner der `edit.json` (oder absolut).
 "bed": {"start": "auto", "lufs": -28, "lowpass": 5000, "cut": 5.70}
 ```
 
-- `start`: `"auto"` heißt, die Musik läuft so, dass sie genau am Drop ankommt, also der Teil des Songs **vor** dem Drop. Alternativ eine Sekundenzahl im Song.
+- `start`: `"auto"` heißt, die Musik läuft so, dass sie genau am Drop ankommt, also der Teil des Songs **vor** dem Drop. Ist das Gespräch länger als dieser Teil, wird der Song-Anfang davor automatisch wiederholt. Alternativ eine Sekundenzahl im Song.
 - `lufs`: Lautstärke. **−28 ist der Standard**, damit man das Reden gut versteht. Lauter wäre −24, leiser −30.
 - `lowpass`: macht die Musik etwas dumpfer (5000 = leicht, 1500 = stark). `null` heißt aus.
 - `cut`: ab welcher Sekunde (im fertigen Video) die Musik rausgeht, z. B. genau bei der Pointe. `null` heißt, sie läuft durch (gut, wenn der Song vor dem Drop selbst eine Pause hat).

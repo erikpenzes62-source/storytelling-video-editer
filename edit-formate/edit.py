@@ -254,9 +254,21 @@ def main(jpath):
     music[int(T0 * SR):int(T0 * SR) + L] += ed
     bed = cfg.get('bed')
     if bed:
-        bs = cfg['music'][0][0] - T0 if bed.get('start', 'auto') == 'auto' else bed['start']
-        if bs < 0: sys.exit("FEHLER: Musik vor dem Drop reicht nicht für das ganze Gespräch. 'bed.start' setzen oder Sound mit längerem Anfang nehmen.")
-        b = snd[int(bs * SR):int((bs + T0) * SR)].copy()
+        D = cfg['music'][0][0]
+        if bed.get('start', 'auto') == 'auto':
+            # Teil des Songs vor dem Drop; ist das Gespräch länger, wird der Song-Anfang davor wiederholt
+            lvl = np.abs(snd[:int(D * SR)]); nz = np.nonzero(lvl > 0.01)[0]
+            i0 = int(nz[0]) if len(nz) else 0                     # erster hörbarer Moment im Song
+            pre = snd[i0:int(D * SR)].copy(); need = int(T0 * SR)
+            xf = int(0.08 * SR)
+            while len(pre) < need:
+                head = snd[i0:i0 + min(need - len(pre) + xf, int(D * SR) - i0)].copy()
+                r = np.linspace(0, 1, xf)
+                pre = np.concatenate([head[:-xf], head[-xf:] * r[::-1] + pre[:xf] * r, pre[xf:]])
+            b = pre[len(pre) - need:]
+        else:
+            bs = bed['start']
+            b = snd[int(bs * SR):int((bs + T0) * SR)].copy()
         if bed.get('lowpass'):
             b_, a_ = ss.butter(2, bed['lowpass'] / (SR / 2), 'low'); b = ss.lfilter(b_, a_, b)
         env = np.full(len(b), 10 ** ((bed.get('lufs', -28) - meter.integrated_loudness(b)) / 20))
