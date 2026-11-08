@@ -108,22 +108,40 @@ def build_subs(cfg, talk, T0, path):
     def o_of(ti, s_): return talk[ti]['o'] + (s_ - talk[ti]['s'])
     styles = "Style: S," + st.get('style', "Archivo Black,60,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,0,0,0,0,100,100,0,0,1,0,2,7,0,0,0,1")
     ev = []
-    for ti, words, end in cfg['subs']:
+    slow = cfg.get('sub_speed', 'slow') == 'slow'
+    subs = [list(c) for c in cfg['subs']]
+    if slow:   # ganze Phrase auf einmal; zu kurze Phrasen mit der nächsten zusammenlegen (mind. ~0,9 s, max. 5 Wörter)
+        merged = []
+        for c in subs:
+            if merged and merged[-1][0] == c[0] and (c[1][0][1] - merged[-1][1][0][1] < 0.9) and len(merged[-1][1]) + len(c[1]) <= 5:
+                merged[-1][1] = merged[-1][1] + c[1]; merged[-1][2] = c[2]
+            else:
+                merged.append([c[0], list(c[1]), c[2]])
+        subs = merged
+    for k_, (ti, words, end) in enumerate(subs):
         cend = min(o_of(ti, end), talk[ti]['o'] + talk[ti]['d'] - 0.01, T0 - 0.04)
-        for j, (w, s_, key) in enumerate(words):
-            a = o_of(ti, s_); b = o_of(ti, words[j + 1][1]) if j + 1 < len(words) else cend
+        if slow and k_ + 1 < len(subs) and subs[k_ + 1][0] == ti:
+            cend = max(cend, min(o_of(ti, subs[k_ + 1][1][0][1]), T0 - 0.04))   # stehen lassen bis zur nächsten Phrase
+        steps = [len(words) - 1] if slow else range(len(words))
+        for j in steps:
+            w, s_, key = words[j]
+            a = o_of(ti, words[0][1] if slow else s_)
+            b = cend if slow or j + 1 >= len(words) else o_of(ti, words[j + 1][1])
             if b <= a + 0.02: continue
             m = st['mode']; k = st['key']
             if m == 'single':
-                txt = '{' + st['pos'] + POP + (k if key else '') + '}' + w
+                if slow:
+                    txt = '{' + st['pos'] + POP + '}' + ' '.join(('{' + k + '}' if k2 and k else '') + w2 + ('{' + WH + '}' if k2 and k else '') for w2, _, k2 in words)
+                else:
+                    txt = '{' + st['pos'] + POP + (k if key else '') + '}' + w
                 ev.append((a, b, txt))
             elif m in ('accum', 'accum2'):
                 parts = []
                 for q, (w2, _, k2) in enumerate(words[:j + 1]):
                     p = ('{' + k + '}' if k2 and k else '') + w2 + ('{' + WH + '}' if k2 and k else '')
-                    if q == j: p = '{' + POP + '}' + p + r'{\fscx100\fscy100}'
+                    if q == j and not slow: p = '{' + POP + '}' + p + r'{\fscx100\fscy100}'
                     parts.append(p)
-                ev.append((a, b, '{' + st['pos'] + '}' + ' '.join(parts)))
+                ev.append((a, b, '{' + st['pos'] + (POP if slow else '') + '}' + ' '.join(parts)))
             elif m == 'twoline':
                 small = ' '.join(x[0] for x in words[:j])
                 big = ('{' + k + '}' if key else '') + w

@@ -12,6 +12,7 @@ Pfade sind relativ zum Ordner der `edit.json` (oder absolut).
 | `talk` | `[[0, 6.4]]` | Stücke vom Grundvideo: `[start, ende, zoom?, ton_ende?]` |
 | `subs` | (von `untertitel.py`) | Untertitel: `[stück, [[WORT, zeit, farbig], …], ende]` |
 | `sub_style` | `"1C"` | Untertitel-Stil: `1A`, `1C`, `2`, `5`, `8`, `9` |
+| `sub_speed` | `"slow"` | `slow` (Standard) = ganze Phrase auf einmal, mind. ~1 s sichtbar, gut lesbar. `fast` = Wort für Wort |
 | `style` | `"cine"` | Look im Edit-Teil: `cine`, `chaos`, `vivid`, `doku` |
 | `fog` | `true` | Weißer Nebel-Übergang vom Gespräch ins Edit (für Cinematic) |
 | `music` | `[[13.42, 19.12]]` | Song-Stück für das Edit: `[[drop, ende]]` (mehrere Stücke möglich, werden aneinandergehängt) |

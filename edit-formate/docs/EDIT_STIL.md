@@ -24,6 +24,7 @@ Diese Regeln kommen aus Eriks Feedback zu vielen Testversionen. Sie gelten für 
 - **Kein Schwarz-Weiß.**
 - **Übergänge benutzen:** Wisch, Zoom-Blur, Weiß-Blende, Nebel.
 - **Nicht zu schnell schneiden:** meistens 1 Beat pro Clip, halbe Beats nur ab und zu.
+- **Untertitel langsam:** ganze Phrasen (3–4 Wörter) auf einmal, jede bleibt stehen bis zur nächsten. Wort für Wort ist zu schnell zum Mitlesen.
 
 ## Edit-Formate (zum Abwechseln)
 

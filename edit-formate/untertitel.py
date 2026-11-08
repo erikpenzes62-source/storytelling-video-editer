@@ -41,6 +41,16 @@ if not os.path.exists(wpath):
     words = [{'w': w.word.strip(), 's': round(w.start, 2), 'e': round(w.end, 2)} for s in segs for w in (s.words or []) if w.word.strip()]
     json.dump(words, open(wpath, 'w', encoding='utf-8'), ensure_ascii=False)
 words = json.load(open(wpath, encoding='utf-8'))
+# Whisper zerlegt Zahlen/Abkürzungen ("30" ".000", "3" "-4", "z" ".B.") – wieder zusammenfügen
+fixed = []
+for w in words:
+    if fixed and (w['w'].startswith('.') or w['w'].startswith('-')) and w['s'] - fixed[-1]['e'] < 0.3:
+        fixed[-1]['w'] += w['w'].replace('-', '–'); fixed[-1]['e'] = w['e']
+    else:
+        fixed.append(dict(w))
+for w in fixed:
+    w['w'] = w['w'].replace('z.B.', 'z. B.')
+words = fixed
 
 subs = []
 for ti, seg in enumerate(cfg['talk']):
