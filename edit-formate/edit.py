@@ -85,16 +85,16 @@ SUBSTYLES = {
     # 1A Ferrari-Block: 2 Zeilen eng übereinander, gleich breit gezogen, oben links, leicht 3D
     '1A': dict(font='Archivo Black', file='ArchivoBlack-Regular.ttf', mode='block', key=CY),
     # 1C Ferrari-Einzelwort: ein Wort groß oben links, leicht 3D
-    '1C': dict(style="Archivo Black,76,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,0,0,0,0,86,100,-1,0,1,0,3,7,0,0,0,1",
+    '1C': dict(style="Archivo Black,66,&H00FFFFFF,&H00FFFFFF,&H00000000,&H90000000,0,0,0,0,86,100,-1,0,1,0,3,7,0,0,0,1",
                pos=rf'\an7\pos(48,{TOP+40})\fry-12\frx3', mode='single', key=CY),
     # 2 Klassik: fett, Großbuchstaben, Wort für Wort aufbauend, gelbe Keywords, unten
-    '2':  dict(style="Poppins,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,4,2,2,40,40,0,1",
+    '2':  dict(style="Poppins,52,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,4,2,2,40,40,0,1",
                pos=rf'\an2\pos(540,{TOP+VH-66})', mode='accum', key=YE),
     # 5 Rot Anton: ein Wort in der Mitte
-    '5':  dict(style="Anton,86,&H002020E8,&H002020E8,&H00100000,&H64000000,0,0,0,0,100,100,1,0,1,3,0,5,0,0,0,1",
+    '5':  dict(style="Anton,74,&H002020E8,&H002020E8,&H00100000,&H64000000,0,0,0,0,100,100,1,0,1,3,0,5,0,0,0,1",
                pos=rf'\an5\pos(540,{TOP+VH//2})', mode='single', key=''),
     # 8 Bebas groß mit Schatten, Keywords gelb
-    '8':  dict(style="Bebas Neue,120,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,0,0,0,0,100,100,2,0,1,0,6,5,0,0,0,1",
+    '8':  dict(style="Bebas Neue,100,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,0,0,0,0,100,100,2,0,1,0,6,5,0,0,0,1",
                pos=rf'\an5\pos(540,{TOP+330})', mode='accum2', key=YE),
     # 9 Zwei Zeilen klein/GROSS: Satz klein oben, aktuelles Wort groß darunter
     '9':  dict(style="Archivo Black,46,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,0,0,0,0,100,100,0,0,1,3,0,2,0,0,0,1",
@@ -161,7 +161,7 @@ def build_subs(cfg, talk, T0, path):
             elif m == 'twoline':
                 small = '' if speed == 'words' else ' '.join(x[0] for x in words[:j])
                 big = ' '.join(('{' + k + '}' if k2 and k else '') + w2 + ('{' + WH + '}' if k2 and k else '') for w2, _, k2 in words) if speed == 'words' else (('{' + k + '}' if key else '') + w)
-                txt = '{' + st['pos'] + '}' + (r'{\fs40}' + small + r'\N' if small else '') + r'{\fs86' + POP + '}' + big
+                txt = '{' + st['pos'] + '}' + (r'{\fs40}' + small + r'\N' if small else '') + r'{\fs60' + POP + '}' + big
                 ev.append((a, b, txt))
             elif m == 'block':
                 # 1A: bisher gesprochene Wörter des Chunks auf max. 2 Zeilen, jede Zeile auf gleiche Breite
